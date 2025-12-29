@@ -1,14 +1,14 @@
 require vagrant logging
 
-ACC_NEED_CACHE=false
+REPO_NEED_CACHE=false
 
 # ----------------------------------------------------------------
 # Make system cache (right after accelerating repo...)
 # Parameters:
-# $1 -> force making cache regardless the $ACC_NEED_CACHE switch
+# $1 -> force making cache regardless the $REPO_NEED_CACHE switch
 # ----------------------------------------------------------------
 repo::system_cache() {
-  if $ACC_NEED_CACHE; then
+  if $REPO_NEED_CACHE; then
     log::info "Making system cache. This will take a few seconds..."
     dnf $QUIET_FLAG_Q makecache >$QUIET_STDOUT 2>&1
   fi
@@ -18,7 +18,7 @@ repo::system_cache() {
 # Make cache for vagrant
 # ----------------------------------------------------------------
 repo::user_cache() {
-  if $ACC_NEED_CACHE; then
+  if $REPO_NEED_CACHE; then
     log::info "Making cache for user 'vagrant'. This will take a few seconds..."
     vg::exec "dnf $QUIET_FLAG_Q makecache >$QUIET_STDOUT 2>&1"
   fi
@@ -43,5 +43,5 @@ repo::accelerate() {
 # Mark flag to make cache later
 # ----------------------------------------------------------------
 repo::notify_cache() {
-  ACC_NEED_CACHE=true
+  REPO_NEED_CACHE=true
 }

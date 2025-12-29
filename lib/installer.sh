@@ -1,4 +1,5 @@
-require logging config version setup accelerator cri vagrant components/network
+require logging config setup
+require components/network
 require components/openjdk
 require components/maven
 require components/epel
@@ -34,10 +35,10 @@ installer::postprocess() {
 }
 
 # ----------------------------------------------------------------
-# Print machine info and flags
+# Print machine info and versions
 # Scope: private
 # ----------------------------------------------------------------
-installer::wrap_up() {
+installer::summary() {
   network::gather_facts
   log::verbose "Installation complete! Wrap it up..."
   cat << EOF | column -t -s "|" -N CATEGORY,NAME,VALUE
@@ -58,7 +59,7 @@ EOF
 }
 
 # ----------------------------------------------------------------
-# Print machine info and flags
+# Print machine info and versions
 # ----------------------------------------------------------------
 installer::main() {
   log::is_debug && set -x || true
@@ -71,6 +72,6 @@ installer::main() {
   npm::installer
   epel::installer
   installer::postprocess
-  installer::wrap_up
+  installer::summary
   log::is_debug && set +x || true
 }

@@ -1,6 +1,5 @@
 require logging
 require config
-require accelerator
 
 
 # ----------------------------------------------------------------
