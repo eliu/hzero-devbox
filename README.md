@@ -1,12 +1,11 @@
 # 本地开发环境 (devbox)
 
-`devbox` 是一个可以在本地快速启动用于本地开发的虚拟机模板，可提供容器化环境、Java后端和前端编译工具等。开发人员可以得到一个与服务器环境一致的本地开发环境。
+这是一个可以在本地快速启动用于本地开发的虚拟机模板，可提供容器化环境、Java后端和前端编译工具等。开发人员可以得到一个与服务器环境一致的本地开发环境。
 
 项目具有以下特点：
 
-1. 一致性体验：本项目所解决的核心痛点，让本地开发环境与生产环境一致，帮开发人员从繁琐的环境搭建中解放出来
-2. 国内加速器：预配置 DNS 以及国内仓库和软件源
-
+1. 一致性体验：本地开发环境与生产环境一致，避免因环境差异导致的开发问题。
+2. 国内加速器：预配置 DNS 以及国内仓库和软件源。
 
 
 ## 先决条件
@@ -14,9 +13,7 @@
 本项目基于 Vagrant 和 VirtualBox 搭建，所以开发人员还是需要一些少量的软件安装工作。
 
 - Vagrant： [Vagrant | HashiCorp Developer](https://developer.hashicorp.com/vagrant)
-
 - VirtualBox：[Downloads – Oracle VM VirtualBox](https://www.virtualbox.org/wiki/Downloads)
-
 
 
 ## 预装软件清单
@@ -30,13 +27,8 @@
 | Apache Maven     | 3.9.12                       |                                                  |
 | Git              | 2.29.3                       | 版本控制                                         |
 | CRI              | N/A                          | 容器运行时: docker 或者 podman                   |
-| Compose          |                              | 容器编排工具：docker compose 或者 podman compose |
+| Compose          | N/A                          | 容器编排工具：docker compose 或者 podman compose |
 | Node.js          | 20.9.0                       | 前端工具                                         |
-| Lerna            | 基于 Node 版本安装的最新版   | 前端软件包管理工具                               |
-| Yarn             | 基于 Node 版本安装的最新版   | 前端软件包管理工具                               |
-| MySQL            | 5.7                          | 由 `base services` 置备器提供                    |
-| Redis            | 4-alpine                     | 由 `base services` 置备器提供                    |
-| MinIO            | RELEASE.2019-10-12T01-39-57Z | 由 `base services` 置备器提供                    |
 
 ## 配置选项
 
@@ -52,8 +44,8 @@ devbox 中所安装的所有基础软件都可通过配置文件来控制是否�
 | installer.git.enabled        | 布尔   | 是否安装 `Git`                                  | false       |
 | installer.openjdk.enabled    | 布尔   | 是否安装 `Open JDK`                             | false       |
 | installer.epel.enabled       | 布尔   | 是否安装 `EPEL`                                 | false       |
-| installer.maven.enabled      | 布尔   | 是否安装 `Maven`                                | false       |
-| installer.npm.enabled   | 布尔   | 是否安装 `前端工具`，包括 `npm`，`yarn`,`lerna` | false       |
+| installer.maven.enabled      | 布尔   | 是否安装 `Apache Maven`                         | false       |
+| installer.npm.enabled   | 布尔   | 是否安装 Node.js | false       |
 | installer.container.enabled  | 布尔   | 是否安装容器运行时                              | false       |
 | installer.containert.runtime | 字符串 | 容器运行时：podman 或者 docker                  | docker      |
 
@@ -118,11 +110,13 @@ default: SOFTWARE VERSION  LERNA         8.0.1
 
 ## 置备器
 
-当前的开发环境提供了几个常用的置备器（Provisioner）来按需执行特定的任务。开发环境通过 `vagrant up` 启动成功之后，就可以通过 `vagrant provision --provision-with <provisioner>` 来运行置备器。下面来逐个介绍一下。
+当前的开发环境提供了一个常用的置备器（Provisioner）来按需执行特定的任务。开发环境通过 `vagrant up` 启动成功之后，就可以通过 `vagrant provision --provision-with <provisioner>` 来运行置备器。
 
-### 1. base services
+### base_services
 
-该置备器用来以容器化的方式、通过  `Compose`  来启动基础服务，包括 `mysql` ，`redis` 和 `MinIO`，服务组件版本如下：
+#### 命令1：base_services_up
+
+该命令用来以容器化的方式、通过  `Compose`  来启动基础服务，包括 `mysql` ，`redis` 和 `MinIO`，服务组件版本如下：
 
 | 服务  | 版本                         |
 | ----- | ---------------------------- |
@@ -130,18 +124,18 @@ default: SOFTWARE VERSION  LERNA         8.0.1
 | redis | 4-alpine                     |
 | minio | RELEASE.2019-10-12T01-39-57Z |
 
-你也可以在 `etc/basesvc/docker-compose.yaml` 中查看详细的定义，包括默认的数据库用户名和密码等等。启动置备器的命令如下：
+你也可以在 `provisioners/base_services/config/docker-compose.yaml` 中查看详细的定义，包括默认的数据库用户名和密码等等。启动置备器的命令如下：
 
 ```bash
-$ vagrant provision --provision-with "base services"
+$ vagrant provision --provision-with "base_services_up"
 ```
 
-### 2. health check
+#### 命令2：base_services_ps
 
-该置备器用于在置备器 `base services` 执行完之后，查看服务的启动和运行状态。检查的原理实际上就是调用了 `podman-compose ps` 命令。运行该置备器的命令如下：
+该命令用于在 `base_services_up` 执行完之后，查看服务的启动和运行状态，运行命令如下：
 
 ```bash
-$ vagrant provision --provision-with "health check"
+$ vagrant provision --provision-with "base_services_ps"
 ```
 
 得到如下类似的检查结果：
@@ -153,6 +147,29 @@ minio   /usr/bin/docker-entrypoint ...   Up (healthy)   0.0.0.0:9000->9000/tcp
 mysql   docker-entrypoint.sh mysqld      Up             0.0.0.0:3306->3306/tcp, 33060/tcp
 redis   docker-entrypoint.sh redis ...   Up             0.0.0.0:6379->6379/tcp
 ```
+
+### 自定义置备器
+
+你可以根据置备器 `base_services` 的格式，自定义自己的置备器，基本步骤如下：
+
+1. [必需] 在 `provisioners` 目录下创建一个新的目录，目录名就是你自定义的置备器名称，例如 `my_provisioner`。
+2. [可选] 在新目录下创建一个 `config` 目录，用于存放置备器的配置文件。
+3. [必需] 在新目录下创建一个 `provision.rb` 文件，用于定义置备器的运行环境和任务，例如：
+```ruby
+# my_provisioner/provision.rb
+# my_provisioner -> MyProvisioner
+class MyProvisioner
+  @name = "my_provisioner"
+  @enabled = true
+
+  def provision(config)
+    config.vm.provision 'shell', inline: 'echo "Hello, World!"'
+  end
+end
+```
+
+之后运行：`vagrant provision --provision-with "my_provisioner"`
+
 
 ## License
 
