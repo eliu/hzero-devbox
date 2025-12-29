@@ -31,3 +31,11 @@ npm::accelerate() {
   log::info "Accelerating npm registry..."
   npm config set registry https://registry.npmmirror.com
 }
+
+npm::version() {
+  npm --version
+}
+
+node::version() {
+  node --version
+}

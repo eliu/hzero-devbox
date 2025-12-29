@@ -41,19 +41,19 @@ installer::wrap_up() {
   network::gather_facts
   log::verbose "Installation complete! Wrap it up..."
   cat << EOF | column -t -s "|" -N CATEGORY,NAME,VALUE
-----------------|----|-----
-PROPERTY|MACHINE_OS  |$(style::green $(version::os))
-PROPERTY|MACHINE_IP  |$(style::green ${network_facts[ip]})
-PROPERTY|USING_DNS   |$(style::green ${network_facts[dns]})
-----------------|----|-----
-$(config::get installer.git.enabled && echo "SOFTWARE VERSION|GIT|$(style::green $(git::version))")
-$(config::get installer.epel.enabled && echo "SOFTWARE VERSION|EPEL|$(style::green $(epel::version))")
-$(config::get installer.openjdk.enabled && echo "SOFTWARE VERSION|OPENJDK|$(style::green $(openjdk::version))")
-$(config::get installer.maven.enabled && echo "SOFTWARE VERSION|MAVEN|$(style::green $(maven::version))")
-SOFTWARE VERSION|PIP3|$(style::green $(pip3::version))
-$(config::get installer.container.enabled && echo "SOFTWARE VERSION|$CRI_COMMAND|$(style::green $(cri::version))")
-$(config::get installer.npm.enabled && echo "SOFTWARE VERSION|NODE|$(style::green $(version::of node))")
-$(config::get installer.npm.enabled && echo "SOFTWARE VERSION|NPM|$(style::green $(version::of npm))")
+---------|----|-----
+PROPERTY|OS  |$(style::green $(cat /etc/system-release))
+PROPERTY|IP  |$(style::green ${network_facts[ip]})
+PROPERTY|DNS   |$(style::green ${network_facts[dns]})
+---------|----|-----
+$(config::get installer.git.enabled && echo "VERSION|GIT|$(style::green $(git::version))")
+$(config::get installer.epel.enabled && echo "VERSION|EPEL|$(style::green $(epel::version))")
+$(config::get installer.openjdk.enabled && echo "VERSION|OPENJDK|$(style::green $(openjdk::version))")
+$(config::get installer.maven.enabled && echo "VERSION|MAVEN|$(style::green $(maven::version))")
+VERSION|PIP3|$(style::green $(pip3::version))
+$(config::get installer.container.enabled && echo "VERSION|$CRI_COMMAND|$(style::green $(cri::version))")
+$(config::get installer.npm.enabled && echo "VERSION|NODE|$(style::green $(node::version))")
+$(config::get installer.npm.enabled && echo "VERSION|NPM|$(style::green $(npm::version))")
 EOF
 }
 
