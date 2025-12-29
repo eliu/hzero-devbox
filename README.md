@@ -28,7 +28,9 @@
 | Git              | 2.47.3               | 版本控制                                         |
 | CRI              | N/A                  | 容器运行时: docker 或者 podman                   |
 | Compose          | N/A                  | 容器编排工具：docker compose 或者 podman compose |
-| Node.js          | v12.28.3             | 前端工具                                         |
+| Node.js          | v18.20.4             | 前端工具                                         |
+| Yarn             | 1.22.22              | 前端工具                                         |
+| Lerna            | 9.0.3                | 前端工具                                         |
 
 ## 配置选项
 
