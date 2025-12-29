@@ -17,6 +17,7 @@ npm::installer() {
       tar xf "${TEMPDIR}/${NODE_FILENAME}.tar.xz" -C /opt
       setup::add_context "PATH" "export PATH=/opt/${NODE_FILENAME}/bin:\$PATH"
       npm::accelerate
+      npm install -g yarn lerna >$QUIET_STDOUT 2>&1
     }
   } || {
     has_command npm && {
