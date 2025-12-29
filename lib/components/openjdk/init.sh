@@ -3,6 +3,7 @@ require logging
 require config
 require setup
 
+OPENJDK_VERSION="$(config::get installer.openjdk.version)"
 
 openjdk::installer() {
   config::get installer.openjdk.enabled && openjdk::install || openjdk::uninstall
@@ -10,8 +11,8 @@ openjdk::installer() {
 
 openjdk::install() {
   has_command java || {
-    log::info "Installing openjdk-8-devel..."
-    dnf install $QUIET_FLAG_Q -y java-1.8.0-openjdk-devel >$QUIET_STDOUT
+    log::info "Installing openjdk-${OPENJDK_VERSION}-devel..."
+    dnf install $QUIET_FLAG_Q -y java-${OPENJDK_VERSION}-openjdk-devel >$QUIET_STDOUT
     setup::add_context "JAVA_HOME" "export JAVA_HOME=$(readlink -f /etc/alternatives/java_sdk_openjdk)"
   }
 }
@@ -19,8 +20,8 @@ openjdk::install() {
 openjdk::uninstall() {
   has_command java && {
     setup::del_context "JAVA_HOME"
-    log::info "Uninstalling openjdk-8-devel..."
-    dnf remove $QUIET_FLAG_Q -y java-1.8.0-openjdk-devel >$QUIET_STDOUT
+    log::info "Uninstalling openjdk-${OPENJDK_VERSION}-devel..."
+    dnf remove $QUIET_FLAG_Q -y java-${OPENJDK_VERSION}-openjdk-devel >$QUIET_STDOUT
   } || true
 }
 

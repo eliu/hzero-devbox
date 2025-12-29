@@ -20,15 +20,15 @@
 
 开发环境启动后会安装如下软件到虚拟机中：
 
-| 软件/系统        | 版本                         | 备注                                             |
-| ---------------- | ---------------------------- | ------------------------------------------------ |
-| Vagrant Box 镜像 | `bento/rockylinux-9`         | 基础镜像，提供 Rocky Linux 9 操作系统            |
-| OpenJDK          | 8                            |                                                  |
-| Apache Maven     | 3.9.12                       |                                                  |
-| Git              | 2.29.3                       | 版本控制                                         |
-| CRI              | N/A                          | 容器运行时: docker 或者 podman                   |
-| Compose          | N/A                          | 容器编排工具：docker compose 或者 podman compose |
-| Node.js          | 20.9.0                       | 前端工具                                         |
+| 软件/系统        | 默认版本              | 备注                                             |
+| ---------------- | --------------------- | ------------------------------------------------ |
+| Vagrant Box 镜像 | `bento/rockylinux-10` | 基础镜像，提供 Rocky Linux 9 操作系统            |
+| OpenJDK          |                       |                                                  |
+| Apache Maven     | 3.9.12                |                                                  |
+| Git              | 2.47.3                | 版本控制                                         |
+| CRI              | N/A                   | 容器运行时: docker 或者 podman                   |
+| Compose          | N/A                   | 容器编排工具：docker compose 或者 podman compose |
+| Node.js          | 24.1.0                | 前端工具                                         |
 
 ## 配置选项
 
@@ -64,48 +64,44 @@ $ vagrant up
 安装过程中会输出日志，最后会输出所有已安装成功的软件版本清单。在所有配置项均启用的时候，日志内容大致如下：
 
 ```shell
-default: [INFO] Gathering facts for networks...
-default: [INFO] Setting up machine hosts...
-default: [INFO] Gathering facts for networks...
-default: [INFO] Resolving dns...
-default: [INFO] Accelerating base repo...
-default: [INFO] Making cache. This may take a few seconds...
-default: [INFO] Installing base packages that may take some time...
-default: [INFO] Accelerating python pip...
-default: [INFO] Setting up environment for TZ...
-default: [INFO] Setting up environment for PATH...
-default: [INFO] Setting up envionment for JAVA_HOME...
-default: [INFO] Setting up epel repo...
-default: [INFO] Accelerating epel repo...
-default: [INFO] Making cache. This may take a few seconds...
-default: [INFO] Accelerating maven repo...
-default: [INFO] Setting up environment for MAVEN_HOME...
-default: [INFO] Setting up environment for PATH...
-default: [INFO] Installing podman...
-default: [INFO] Installing podman compose as user vagrant...
-default: [INFO] Accelerating container registry...
+default: Running provisioner: shell...
+default: Running: inline script
+default: installer.container.enabled  =  true
+default: installer.container.runtime  =  docker
+default: installer.epel.enabled       =  false
+default: installer.git.enabled        =  true
+default: installer.maven.enabled      =  true
+default: installer.maven.version      =  3.9.12
+default: installer.npm.enabled        =  true
+default: installer.npm.version        =  24.1.0
+default: installer.openjdk.enabled    =  true
+default: installer.openjdk.version    =  21
+default: logging.level                =  verbose
+default: setup.host.enabled           =  false
+default: setup.host.name              =  example.com
+default: VERBOSE: (13) properties already cached.
 default: [INFO] Installing node and npm...
-default: [INFO] Setting up environment for PATH...
+default: VERBOSE: Downloading https://mirrors.aliyun.com/nodejs-release/v24.1.0/node-v24.1.0-linux-x64.tar.xz
+default: VERBOSE: Extracting files to /opt...
+default: VERBOSE: Setting up environment for PATH...
 default: [INFO] Accelerating npm registry...
-default: [INFO] Installing yarn and lerna...
-default: [INFO] Installation complete! Wrap it up...
-default: CATEGORY          NAME          VALUE
-default: ----------------  ----          -----
-default: PROPERTY          MACHINE_OS    Rocky Linux release 9.2 (Blue Onyx)
-default: PROPERTY          MACHINE_IP    192.168.133.100
-default: PROPERTY          USING_DNS     8.8.8.8,114.114.114.114
-default: ----------------  ----          -----
-default: SOFTWARE VERSION  GIT           2.39.3
-default: SOFTWARE VERSION  EPEL          epel-release.noarch.9-7.el9
-default: SOFTWARE VERSION  OPENJDK       1.8.0_392
-default: SOFTWARE VERSION  MAVEN         3.9.5
-default: SOFTWARE VERSION  PYTHON3       3.9.16
-default: SOFTWARE VERSION  PIP3          21.2.3
-default: SOFTWARE VERSION  PODMAN        4.6.1
-default: SOFTWARE VERSION  NODE          v20.9.0
-default: SOFTWARE VERSION  NPM           10.2.5
-default: SOFTWARE VERSION  YARN          1.22.21
-default: SOFTWARE VERSION  LERNA         8.0.1
+default: VERBOSE: Gathering facts for networks...
+default: dns  =  114.114.114.114,8.8.8.8,0.187.2.4,192.168.3.1,fd17:625c:f037:2::3
+default: ip   =  192.168.133.100
+default: VERBOSE: Installation complete! Wrap it up...
+default: CATEGORY   NAME     VALUE
+default: ---------  ----     -----
+default: PROPERTY   OS       Rocky Linux release 10.0 (Red Quartz)
+default: PROPERTY   IP       192.168.133.100
+default: PROPERTY   DNS      114.114.114.114,8.8.8.8,0.187.2.4,192.168.3.1,fd17:625c:f037:2::3
+default: ---------  ----     -----
+default: VERSION    GIT      2.47.3
+default: VERSION    OPENJDK  21.0.9
+default: VERSION    MAVEN    3.9.12
+default: VERSION    PIP3     23.3.2
+default: VERSION    docker   29.1.3
+default: VERSION    NODE     v24.1.0
+default: VERSION    NPM      11.3.0
 ```
 
 ## 置备器

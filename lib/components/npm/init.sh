@@ -2,7 +2,7 @@ require logging
 require config
 
 readonly TEMPDIR="$(mktemp -d)"
-readonly NODE_VERSION="20.9.0"
+readonly NODE_VERSION="$(config::get installer.npm.version)"
 readonly NODE_FILENAME="node-v${NODE_VERSION}-linux-x64"
 readonly NODE_MIRROR="https://mirrors.aliyun.com/nodejs-release"
 readonly NODE_URL="$NODE_MIRROR/v${NODE_VERSION}/${NODE_FILENAME}.tar.xz"

@@ -3,7 +3,7 @@
 
 
 Vagrant.configure("2") do |config|
-  config.vm.box = "bento/rockylinux-9"
+  config.vm.box = "bento/rockylinux-10"
   config.vm.box_check_update = false
   # https://github.com/dotless-de/vagrant-vbguest/issues/351
   config.vbguest.auto_update = false if Vagrant.has_plugin?("vagrant-vbguest")
@@ -40,7 +40,7 @@ Vagrant.configure("2") do |config|
 
       if provisioner_enabled != nil && provisioner_enabled
           provisioner_module.provision(config)
-          puts "Loaded provisioner \"#{provisioner_name}\""
+          # puts "Loaded provisioner \"#{provisioner_name}\""
       end
     rescue LoadError => e
       puts "Failed to load provisioner #{provisioner_path}: #{e.message}"

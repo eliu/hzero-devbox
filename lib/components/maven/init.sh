@@ -5,8 +5,8 @@ require setup
 require components/openjdk
 
 readonly M2_TEMPDIR="$(mktemp -d)"
-readonly M2_MAJOR="3"
-readonly M2_VERSION="3.9.12"
+readonly M2_MAJOR="$(config::get installer.maven.version | cut -d '.' -f 1)"
+readonly M2_VERSION="$(config::get installer.maven.version)"
 readonly M2_MIRROR="https://mirrors.aliyun.com/apache/maven"
 readonly M2_URL="$M2_MIRROR/maven-${M2_MAJOR}/${M2_VERSION}/binaries/apache-maven-${M2_VERSION}-bin.tar.gz"
 
