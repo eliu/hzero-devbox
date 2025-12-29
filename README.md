@@ -108,45 +108,9 @@ default: VERSION    NPM      11.3.0
 
 当前的开发环境提供了一个常用的置备器（Provisioner）来按需执行特定的任务。开发环境通过 `vagrant up` 启动成功之后，就可以通过 `vagrant provision --provision-with <provisioner>` 来运行置备器。
 
-### base_services
-
-#### 命令1：base_services_up
-
-该命令用来以容器化的方式、通过  `Compose`  来启动基础服务，包括 `mysql` ，`redis` 和 `MinIO`，服务组件版本如下：
-
-| 服务  | 版本                         |
-| ----- | ---------------------------- |
-| mysql | 5.7                          |
-| redis | 4-alpine                     |
-| minio | RELEASE.2019-10-12T01-39-57Z |
-
-你也可以在 `provisioners/base_services/config/docker-compose.yaml` 中查看详细的定义，包括默认的数据库用户名和密码等等。启动置备器的命令如下：
-
-```bash
-$ vagrant provision --provision-with "base_services_up"
-```
-
-#### 命令2：base_services_ps
-
-该命令用于在 `base_services_up` 执行完之后，查看服务的启动和运行状态，运行命令如下：
-
-```bash
-$ vagrant provision --provision-with "base_services_ps"
-```
-
-得到如下类似的检查结果：
-
-```
-Name               Command                  State                     Ports
------------------------------------------------------------------------------------------
-minio   /usr/bin/docker-entrypoint ...   Up (healthy)   0.0.0.0:9000->9000/tcp
-mysql   docker-entrypoint.sh mysqld      Up             0.0.0.0:3306->3306/tcp, 33060/tcp
-redis   docker-entrypoint.sh redis ...   Up             0.0.0.0:6379->6379/tcp
-```
-
 ### 自定义置备器
 
-你可以根据置备器 `base_services` 的格式，自定义自己的置备器，基本步骤如下：
+自定义自己的置备器，基本步骤如下：
 
 1. [必需] 在 `provisioners` 目录下创建一个新的目录，目录名就是你自定义的置备器名称，例如 `my_provisioner`。
 2. [可选] 在新目录下创建一个 `config` 目录，用于存放置备器的配置文件。
