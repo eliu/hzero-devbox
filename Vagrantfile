@@ -3,11 +3,11 @@
 
 
 Vagrant.configure("2") do |config|
-  config.vm.box = "bento/rockylinux-10"
+  config.vm.box = "bento/rockylinux-9"
   config.vm.box_check_update = false
   # https://github.com/dotless-de/vagrant-vbguest/issues/351
   config.vbguest.auto_update = false if Vagrant.has_plugin?("vagrant-vbguest")
-  config.vm.network "private_network", ip: "192.168.133.100"
+  config.vm.network "private_network", ip: "192.168.133.101"
   config.vm.provider "virtualbox" do |vb|
     vb.cpus = 2
     vb.memory = 2048

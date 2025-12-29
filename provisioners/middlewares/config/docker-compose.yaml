@@ -1,0 +1,37 @@
+services:
+  mysql:
+    container_name: mysql
+    image: ${MYSQL_DOCKER_IMAGE}
+    restart: unless-stopped
+    environment:
+      TZ: Asia/Shanghai
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "${MYSQL_PORT}:3306"
+    volumes:
+      - ./mysql/mysql_data:/var/lib/mysql
+      - ./mysql/mysql_db.cnf:/etc/mysql/conf.d/mysql_db.cnf
+  redis:
+    container_name: redis
+    image: ${REDIS_DOCKER_IMAGE}
+    restart: unless-stopped
+    environment:
+      TZ: Asia/Shanghai
+    ports:
+      - "${REDIS_PORT}:6379"
+    volumes:
+      - ./redis/data:/data
+  minio:
+    container_name: minio
+    image: ${MINIO_DOCKER_IMAGE}
+    restart: unless-stopped
+    environment:
+      TZ: Asia/Shanghai
+    ports:
+      - "${MINIO_PORT}:9000"
+    command: server /data
+    volumes:
+      - ./minio/data:/data
+      - ./minio/config:/root/.minio
