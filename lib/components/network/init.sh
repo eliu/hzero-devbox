@@ -37,7 +37,7 @@ network::gather_uuid_with_auto_method() {
 # Gather dns list
 # ----------------------------------------------------------------
 network::gather_dns() {
-  network_facts[dns]=$(grep nameserver /etc/resolv.conf | awk '{print $2}' | xargs | tr ' ' ',')
+  network_facts[dns]=$(grep '^nameserver' /etc/resolv.conf | awk '{print $2}' | xargs | tr ' ' ',')
 }
 
 # ----------------------------------------------------------------
@@ -66,7 +66,7 @@ network::gather_facts() {
 }
 
 network::dns_available() {
-  [[ $(grep nameserver /etc/resolv.conf | wc -l) -ge 2 ]]
+  grep -E 'nameserver\s+114' /etc/resolv.conf 2>&1 > /dev/null
 }
 
 # ----------------------------------------------------------------
